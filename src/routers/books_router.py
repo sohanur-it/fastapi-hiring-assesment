@@ -36,7 +36,10 @@ async def get_book(book_id: int, db: AsyncSession = Depends(get_db)):
     try:
         query = select(Book).filter_by(id=book_id)
         result = await db.execute(query)
+        print("---->")
+        print(result, type(result))
         book = result.scalar_one()
+        print(book)
         return book
     except NoResultFound:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Book not found")

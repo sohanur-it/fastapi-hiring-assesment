@@ -2,6 +2,7 @@ from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from typing import AsyncGenerator
+from sqlalchemy.orm import DeclarativeBase
 
 DATABASE_URL = 'postgresql+asyncpg://postgres_user:postgres_pass@db:5432/docker_postgres'
 
@@ -13,8 +14,10 @@ AsyncSessionLocal = sessionmaker(
     expire_on_commit=False,
 )
 
+class Base(DeclarativeBase):
+    pass
 
-Base = declarative_base()
+# Base = declarative_base()
 
 async def get_db() -> AsyncGenerator[AsyncSession, None]:
     async with AsyncSessionLocal() as session:
